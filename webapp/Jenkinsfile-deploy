@@ -6,23 +6,23 @@ pipeline {
       steps {
         script {
           withCredentials([string(credentialsId: 'NOW_TOKEN', variable: 'NOW_TOKEN')]) {
-            // 1. Descargamos e instalamos Node.js moderno de forma local en el workspace
             sh """
               export NODE_VERSION=18.16.0
-              export NODE_DIR=\${WORKSPACE}/node-v\${NODE_VERSION}-linux-x64
+              export NODE_DIR=\${WORKSPACE}/node-bin
               
               if [ ! -d "\${NODE_DIR}" ]; then
                 curl -o node.tar.gz https://nodejs.org/dist/v\${NODE_VERSION}/node-v\${NODE_VERSION}-linux-x64.tar.gz
-                tar -xzf node.tar.gz
-                mv node-v\${NODE_VERSION}-linux-x64 \${NODE_DIR}
+                mkdir -p \${NODE_DIR}
+                tar -xzf node.tar.gz -C \${NODE_DIR} --strip-components=1
                 rm node.tar.gz
               fi
               
               export PATH=\${NODE_DIR}/bin:\$PATH
               
-              # 2. Instalamos la última versión del CLI de Vercel y ejecutamos el despliegue
               npm install -g vercel@latest
-              vercel webapp --token ${env.NOW_TOKEN} --scope miguel09112004-3023 --yes --confirm
+              
+              // Ejecutamos sin el parámetro --scope para que tome tu cuenta por defecto automáticamente
+              vercel webapp --token ${env.NOW_TOKEN} --yes --confirm
             """
           }
         }
