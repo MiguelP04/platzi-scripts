@@ -10,11 +10,8 @@ pipeline {
       steps {
         script {
           withCredentials([string(credentialsId: 'NOW_TOKEN', variable: 'NOW_TOKEN')]) {
-            // 1. Instalamos la última versión del CLI de Vercel globalmente en el workspace/agente
-            sh "npm install -g vercel@latest"
-            
-            // 2. Ejecutamos el despliegue con la versión moderna y los parámetros automáticos (--yes --confirm)
-            sh "vercel . --token ${env.NOW_TOKEN} --scope miguel09112004-3023 --yes --confirm"
+            // Usamos now directamente con el token y la bandera de confirmación sobre la carpeta webapp
+            sh "now webapp --token ${env.NOW_TOKEN} --scope miguel09112004-3023 --confirm"
           }
         }
       }
