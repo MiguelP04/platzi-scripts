@@ -21,7 +21,6 @@ pipeline {
               
               npm install -g vercel@latest
               
-              // Ejecutamos sin el parámetro --scope para que tome tu cuenta por defecto automáticamente
               vercel webapp --token ${env.NOW_TOKEN} --yes --confirm
             """
           }
