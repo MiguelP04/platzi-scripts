@@ -1,21 +1,24 @@
+Groovy
 pipeline {
   agent any
-
+  
   tools {
     nodejs '11.1.0'
   }
-  
+
   stages {
     stage('Deploy') {
       steps {
         script {
           withCredentials([string(credentialsId: 'NOW_TOKEN', variable: 'NOW_TOKEN')]) {
-            // Aquí ejecutas tu comando usando ${env.NOW_TOKEN}
-       sh "now . --token ${env.NOW_TOKEN} --scope miguel09112004-3023 --confirm"
-
+            // 1. Instalamos la última versión del CLI de Vercel globalmente en el workspace/agente
+            sh "npm install -g vercel@latest"
+            
+            // 2. Ejecutamos el despliegue con la versión moderna y los parámetros automáticos (--yes --confirm)
+            sh "vercel . --token ${env.NOW_TOKEN} --scope miguel09112004-3023 --yes --confirm"
           }
         }
       }
     }
   }
-} 
+}
