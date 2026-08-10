@@ -28,9 +28,9 @@ pipeline {
       steps {
         script {
           withCredentials([usernamePassword(credentialsId: 'DockerHubCredentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-            sh ''' echo $DOCKER_PASS | docker login -u "$DOCKER_USER" --password-stdin
-            docker push elbuo8/webapp:8
-            '''
+            sh  "echo $DOCKER_PASS | docker login -u "$DOCKER_USER" --password-stdin"
+            dockerImage.push()
+          
           }
         }
       }
