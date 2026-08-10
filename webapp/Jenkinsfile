@@ -27,15 +27,10 @@ pipeline {
     stage('Publish') {
       steps {
         script {
-          stage('Publish') {
-      steps {
-        script {
           docker.withRegistry('https://registry.hub.docker.com', 'DockerHubCredentials') {
             dockerImage.push()
           }
         }
-      }
-    }
       }
     }
     stage('Schedule Staging Deployment') {
