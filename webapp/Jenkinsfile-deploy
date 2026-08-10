@@ -11,7 +11,7 @@ pipeline {
         script {
           withCredentials([string(credentialsId: 'NOW_TOKEN', variable: 'NOW_TOKEN')]) {
             // Aquí ejecutas tu comando usando ${env.NOW_TOKEN}
-          sh "npx vercel --token ${env.NOW_TOKEN} --yes"
+          sh "now --token ${env.NOW_TOKEN} --yes"
 
           }
         }
