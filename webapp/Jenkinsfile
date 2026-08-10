@@ -27,9 +27,11 @@ pipeline {
     stage('Publish') {
       steps {
         script {
-          docker.withRegistry('https://registry.hub.docker.com', 'DockerHubCredentials') {
-            dockerImage.push()
-          }
+          withCredentials([usernamePassword(credentialsId: 'DockerHubCredentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            sh '''
+              echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+              docker push elbuo8/webapp:15
+            '''
         }
       }
     }
