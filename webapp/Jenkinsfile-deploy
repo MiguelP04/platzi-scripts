@@ -36,10 +36,12 @@ pipeline {
       steps {
         sh """
           RESULT_URL=\$(cat deployment_url.txt)
-            echo "Ejecutando Acceptance Test sobre: \${RESULT_URL}/add/3/4"
-            
-            # Hacemos la petición a la ruta y buscamos el número 7
-            curl -s "\${RESULT_URL}/add/3/4" | grep 7
+          echo "Ejecutando Acceptance Test sobre: \${RESULT_URL}/add/3/4"
+          
+          RESPONSE=\$(curl -s "\${RESULT_URL}/add/3/4")
+          echo "Respuesta del servidor: \${RESPONSE}"
+          
+          echo "\${RESPONSE}" | grep 7
           """
       }
     }
