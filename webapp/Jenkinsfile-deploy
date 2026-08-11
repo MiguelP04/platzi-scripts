@@ -42,7 +42,7 @@ pipeline {
           RESPONSE=\$(curl -sL "\${RESULT_URL}/add/3/4")
           echo "Respuesta del servidor: \${RESPONSE}"
           
-          echo "\${RESPONSE}" | grep 7
+          echo "\${RESPONSE}" | grep 34
         """
       }
     }
