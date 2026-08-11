@@ -38,7 +38,7 @@ pipeline {
           RESULT_URL=\$(cat deployment_url.txt)
           echo "Ejecutando Acceptance Test sobre: \${RESULT_URL}/add/3/4"
           
-          RESPONSE=\$(curl -s "\${RESULT_URL}/add/3/4")
+          RESPONSE=\$(curl -sL "\${RESULT_URL}/add/3/4")
           echo "Respuesta del servidor: \${RESPONSE}"
           
           echo "\${RESPONSE}" | grep 7
