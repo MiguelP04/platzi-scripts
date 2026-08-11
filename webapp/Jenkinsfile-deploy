@@ -21,7 +21,11 @@ pipeline {
               
               npm install -g vercel@latest
               
-              vercel webapp --token ${env.NOW_TOKEN} --yes --confirm
+              DEPLOY_OUTPUT=\$(vercel webapp --token ${env.NOW_TOKEN} --yes)
+              echo "\${DEPLOY_OUTPUT}"
+              
+              RESULT_URL=\$(echo "\${DEPLOY_OUTPUT}" | grep -o 'https://[^ ]*' | tail -n 1)
+              echo "\${RESULT_URL}" > deployment_url.txt
             """
           }
         }
