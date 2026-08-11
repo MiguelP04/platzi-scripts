@@ -29,7 +29,7 @@ pipeline {
     }
   }
 
-  stage('Acceptance Test') {
+  stages('Acceptance Test') {
     steps {
       sh """
         RESULT_URL=\$(cat deployment_url.txt)
