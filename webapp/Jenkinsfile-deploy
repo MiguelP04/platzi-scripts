@@ -24,7 +24,7 @@ pipeline {
               DEPLOY_OUTPUT=\$(vercel webapp --token ${env.NOW_TOKEN} --yes)
               echo "\${DEPLOY_OUTPUT}"
 
-              RESULT_URL=\$(echo "\${DEPLOY_OUTPUT}" | grep -o 'https://[^ ]*' | grep '\.vercel\.app' | tail -n 1)
+              RESULT_URL=\$(echo "\${DEPLOY_OUTPUT}" | grep -o 'https://[^ ]*' | grep 'vercel.app' | tail -n 1)
               echo "URL de despliegue extraida: \${RESULT_URL}"
               echo "\${RESULT_URL}" > deployment_url.txt
             """
