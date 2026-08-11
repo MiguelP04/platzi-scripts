@@ -21,7 +21,7 @@ pipeline {
               
               npm install -g vercel@latest
               
-              DEPLOY_OUTPUT=\$(vercel webapp --token ${env.NOW_TOKEN} --yes --prod)
+              DEPLOY_OUTPUT=\$(vercel webapp --token ${env.NOW_TOKEN} --yes)
               echo "\${DEPLOY_OUTPUT}"
               
               RESULT_URL=\$(echo "\${DEPLOY_OUTPUT}" | grep -o 'https://[^ ]*' | grep 'vercel.app' | tail -n 1)
@@ -42,8 +42,25 @@ pipeline {
           RESPONSE=\$(curl -sL "\${RESULT_URL}/add/3/4")
           echo "Respuesta del servidor: \${RESPONSE}"
           
-          echo "\${RESPONSE}" | grep 34
+          echo "\${RESPONSE}" | grep 7  
         """
+      }
+    }
+  }
+  
+  post {
+    success {
+      script {
+        echo "Staging existoso. Disparando el job de producción..."
+
+        build job: 'deploy-webapp-production',
+              parameters: [string(name: 'ARTIFACT_ID', value: "${env.GIT_COMMIT}")],
+              wait: false
+      }
+    }
+    failure {
+      script {
+        echo "Staging falló. El despliegue a producción ha sido bloqueado."
       }
     }
   }
